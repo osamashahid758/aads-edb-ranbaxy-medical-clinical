@@ -1,0 +1,23 @@
+{
+  "DeployEnvironment": "qa",
+  "BusinessUnit": "AADS",
+  "ProjectName": "ranbaxy-medical-data",
+  "Region": "us-east-2",
+  "VpcId": "vpc-12345678",
+  "SubnetIds": [
+  "subnet-12345678",
+  "subnet-87654321"
+],
+  "SecurityGroupIds": [
+  "sg-12345678"
+],
+  "CodeBucket": "aads-code-artifacts-qa",
+  "RawDataBucket": "aads-raw-data-qa",
+  "RefinedDataBucket": "aads-refined-data-qa",
+  "ArchiveBucket": "aads-archived-data-qa",
+  "GlueJobName": "ranbaxy medical data-etl-job-qa",
+  "GlueScriptPath": "code/ranbaxy medical data/glue_job.py",
+  "WorkerType": "Standard",
+  "NumberOfWorkers": 2,
+  "PermissionsBoundary": "LZ-IAM-Boundary"
+}
