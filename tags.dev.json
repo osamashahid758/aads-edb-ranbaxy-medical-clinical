@@ -1,0 +1,19 @@
+{
+  "DeployEnvironment": "dev",
+  "AppName": "ranbaxy medical data",
+  "CostCenter": "100ARAS",
+  "CostCenterApprover": "",
+  "SystemOwner": "osama@lilly.com",
+  "SystemCustodian": "",
+  "PrimaryItContact": "",
+  "Level1BusinessArea": "AADS",
+  "ProjectCenter": "000000",
+  "DataClassification": "Yellow",
+  "Hipaa": "No",
+  "SourceGitRepo": "",
+  "ApproverGroup": "",
+  "ApplicationCi": "",
+  "Environment": "development",
+  "Creator": "EDB-Project-Onboarding",
+  "CreatedDate": "2025-10-03T19:23:55.989593"
+}
