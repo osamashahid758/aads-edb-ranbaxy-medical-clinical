@@ -1,0 +1,234 @@
+{
+  "_metadata": {
+    "generated_by": "EDB Project Onboarding Wizard",
+    "generated_at": "2025-10-03T19:23:56.050362",
+    "version": "1.0.0",
+    "project_name": "ranbaxy medical data",
+    "correlation_id": "70d4e5f4-385a-4c12-b1fc-c0b36e1e804d"
+  },
+  "context": {
+  "business_unit": "AADS",
+  "data_domain": "Clinical",
+  "description": "need to transfer ranbaxy files to s3 in edb",
+  "name": "ranbaxy medical data",
+  "use_case": "need to transfer ranbaxy files to s3 in edb"
+},
+  "source": {
+  "bucket": "ranbaxy medical data-source",
+  "connection_details": {},
+  "connection_type": "oracle",
+  "data_classification": "Green",
+  "data_format": "structured",
+  "database_name": "",
+  "host": "",
+  "name": "ranbaxy medical data-source",
+  "port": "1521",
+  "prefix": "data/",
+  "s3_bucket": "landing-bucket",
+  "s3_prefix": "",
+  "schema": "",
+  "schema_info": {
+    "format": "JSON"
+  },
+  "table_pattern": "",
+  "type": "S3"
+},
+  "target": {
+  "bucket": "ranbaxy medical data-target",
+  "connection_details": {},
+  "connection_type": "postgresql",
+  "data_classification": "Green",
+  "database_name": "",
+  "file_format": "parquet",
+  "folder_name": "",
+  "host": "",
+  "name": "ranbaxy medical data-target",
+  "output_format": "Parquet",
+  "partitioning": "none",
+  "port": "5432",
+  "prefix": "processed/",
+  "s3_bucket": "lilly-raw-bucket",
+  "schema": "",
+  "table_name": "",
+  "type": "S3",
+  "write_mode": "append"
+},
+  "tags": {
+  "AppName": "ranbaxy medical data",
+  "ApplicationCi": "",
+  "ApproverGroup": "",
+  "CostCenter": "100ARAS",
+  "CostCenterApprover": "",
+  "DataClassification": "Yellow",
+  "DeployEnvironment": "dev",
+  "Hipaa": "No",
+  "Level1BusinessArea": "AADS",
+  "PrimaryItContact": "",
+  "ProjectCenter": "000000",
+  "SourceGitRepo": "",
+  "SystemCustodian": "",
+  "SystemOwner": "osama@lilly.com"
+},
+  "metadata": {
+  "notifications": {
+    "on_failure": [],
+    "on_success": []
+  },
+  "orchestration_type": "EventBridge",
+  "retry_policy": {
+    "max_retries": 3,
+    "retry_delay": "5m"
+  },
+  "schedule": {
+    "cron_expression": "0 2 * * *",
+    "frequency": "Daily",
+    "timezone": "UTC"
+  }
+},
+  "infrastructure": {
+    "language": "python311",
+    "cloud": "aws",
+    "region": "us-east-2",
+    "stacks": [
+  "glue"
+],
+    "aws": {
+      "buckets": {
+        "code": "lly-edb-ranbaxy-medical-data-code-dev-${AWS::AccountId}",
+        "raw": "lly-edb-ranbaxy-medical-data-raw-dev-${AWS::AccountId}",
+        "refined": "lly-edb-ranbaxy-medical-data-refined-dev-${AWS::AccountId}",
+        "archive": "lly-edb-ranbaxy-medical-data-archive-dev-${AWS::AccountId}"
+      },
+      "network": {
+        "vpc_id": "vpc-12345678",
+        "subnets": [
+  "subnet-12345678",
+  "subnet-87654321"
+],
+        "sg_ids": [
+  "sg-12345678"
+]      },
+      "iam": {
+        "boundary_arn": "arn:aws:iam::123456789012:policy/LZ-IAM-Boundary",
+        "execution_role": "edb-ranbaxy-medical-data-glue-service-role-dev"
+      }
+    }
+  },
+  "modules": {
+    "glue": {
+      "jobs": [
+        {
+          "name": "edb-ranbaxy-medical-data-transform-dev",
+          "script_s3_key": "src/glue/ranbaxy-medical-data/job.py",
+          "args": [
+            "--config_s3_uri",
+            "--job-bookmark-option", 
+            "--enable-metrics",
+            "--enable-continuous-cloudwatch-log"
+          ],
+          "service_role": "edb-ranbaxy-medical-data-glue-service-role-dev",
+          "worker_type": "G.1X",
+          "number_of_workers": 2,
+          "timeout": 60,
+          "max_retries": 1
+        }
+      ]
+    }  },
+  "governance": {
+    "required_tags": [
+      "DeployEnvironment",
+      "AppName", 
+      "CostCenter",
+      "CostCenterApprover",
+      "SystemOwner",
+      "SystemCustodian",
+      "PrimaryItContact",
+      "Level1BusinessArea",
+      "ProjectCenter",
+      "DataClassification",
+      "Hipaa",
+      "SourceGitRepo",
+      "ApproverGroup",
+      "ApplicationCi"
+    ],
+    "permissions_boundary": "LZ-IAM-Boundary",
+    "data_lineage": true,
+    "audit_logging": true
+  },
+  "generated_files": {
+    "infrastructure": [
+      "infrastructure/template.yml"
+    ],
+    "source_code": [
+      "src/glue/ranbaxy-medical-data/job.py"    ],
+    "configurations": [
+      "configs/ranbaxy-medical-data/blueprint.json"
+    ],
+    "documentation": [
+      "README.md",
+      "docs/DEPLOYMENT.md",
+      "docs/ARCHITECTURE.md"
+    ]
+  },
+  "paths": {
+  "blueprintJsonPath": "configs/ranbaxy-medical-data/blueprint.json",
+  "config": "configs/ranbaxy-medical-data/blueprint.json",
+  "glue": "src/glue/ranbaxy-medical-data/job.py",
+  "glueScriptPath": "src/glue/ranbaxy-medical-data/job.py",
+  "infra": "infrastructure/template.yml",
+  "lambda": "src/lambda/ranbaxy-medical-data/handler.py",
+  "lambdaHandlerPath": "src/lambda/ranbaxy-medical-data/handler.py",
+  "templateYmlPath": "infrastructure/template.yml"
+},
+  "deployment": {
+    "stack_name": "ranbaxy-medical-data-dev",
+    "parameters": {
+      "Environment": "dev",
+      "BusinessUsecase": "ranbaxy-medical-data",
+      "BucketPrefix": "lly-edb",
+      "Region": "us-east-2",
+      "VpcId": "vpc-12345678",
+      "SubnetIds": "subnet-12345678,subnet-87654321",
+      "SecurityGroupIds": "sg-12345678"
+    },
+    "capabilities": [
+      "CAPABILITY_NAMED_IAM"
+    ]
+  },
+  "monitoring": {
+    "cloudwatch_logs": {
+      "retention_days": 30,
+      "log_groups": [
+        "/aws-glue/jobs/edb-ranbaxy-medical-data-transform-dev"      ]
+    },
+    "metrics": {
+      "namespace": "EDBOnboarding/Pipeline",
+      "dimensions": [
+        {
+          "Name": "PipelineName",
+          "Value": "ranbaxy-medical-data"
+        },
+        {
+          "Name": "Environment", 
+          "Value": "dev"
+        }
+      ]
+    },
+    "alerts": [
+      {
+        "name": "GlueJobFailure",
+        "metric": "Errors",
+        "threshold": 1,
+        "comparison": "GreaterThanOrEqualToThreshold",
+        "evaluation_periods": 1
+      },
+      {
+        "name": "GlueJobDuration",
+        "metric": "Duration",
+        "threshold": 3600,
+        "comparison": "GreaterThanThreshold",
+        "evaluation_periods": 1
+      }
+    ]
+  }
+}
